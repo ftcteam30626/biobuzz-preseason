@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.tuning.servo;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp(name = "Servo Position Helper", group = "Tuning")
+@TeleOp(name="Servo Position Helper", group="Tuning")
 public class ServoPositionHelper extends LinearOpMode {
     // Declare OpMode member.
     private Servo servo = null;
@@ -33,23 +32,18 @@ public class ServoPositionHelper extends LinearOpMode {
 
     // These booleans are used in the "rising edge detection"
     private boolean previousGamepadY = false;
-    private boolean previousGamepadA = false;
-    private boolean previousGamepadUp = false;
-    private boolean previousGamepadDown = false;
-    private boolean previousGamepadB = false;
+    private boolean previousGamePadA = false;
+    private boolean previousGamePadUp = false;
+    private boolean previousGamePadDown = false;
 
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "Initializing...");
-        telemetry.update();
-
-        // Initialize the servo. Make sure the name matches your configuration.
-        servo = hardwareMap.get(Servo.class, "testServo");
+        telemetry.addData("Status", "Initializing Completed");
+        servo = hardwareMap.get(Servo.class, "transferServo");
 
         servoPosition = 0.5;
         servo.setPosition(servoPosition);
-
-        telemetry.addData("Status", "Initialized. Servo: testServo");
+        telemetry.addData("Servo Set Position: ",servo.getPosition());
         telemetry.update();
 
         // Wait for the game to start (driver presses START)
@@ -60,38 +54,30 @@ public class ServoPositionHelper extends LinearOpMode {
 
             boolean currentGamepadY = gamepad1.y;
             boolean currentGamepadA = gamepad1.a;
-            boolean currentGamepadB = gamepad1.b;
             boolean currentGamepadUp = gamepad1.dpad_up;
             boolean currentGamepadDown = gamepad1.dpad_down;
 
-            // Check to see if the user is clicking the Y button on the gamepad to increment target.
-            if (currentGamepadY && !previousGamepadY) {
+            // Check to see if the user is clicking the Y(△) button on the gamepad.
+            if (currentGamepadY && !previousGamepadY){
                 // += is an operator that lets us add the step variable without overwriting the servoPosition variable.
                 servoPosition += positionAdjustment;
-            } else if (currentGamepadA && !previousGamepadA) {
-                // We use an else if statement here so that we only check if A is pressed after we know
-                // that the Y button is not pressed.
+            } else if (currentGamepadA && !previousGamePadA){
+                // We use an else if statement here so that we only check if A(x) is pressed after we know
+                // that the Y(△) button is not pressed.
                 servoPosition -= positionAdjustment;
             }
 
             // Here we modify the step size if the user clicks D-pad up or D-pad down.
-            if (currentGamepadUp && !previousGamepadUp) {
+            if (currentGamepadUp && !previousGamePadUp){
                 positionAdjustment += STEP_ADJUSTMENT;
-            } else if (currentGamepadDown && !previousGamepadDown) {
+            } else if (currentGamepadDown && !previousGamePadDown){
                 positionAdjustment -= STEP_ADJUSTMENT;
-                // Prevent step size from becoming negative.
-                if (positionAdjustment < 0) positionAdjustment = 0;
-            }
-
-            // Reset the position to center (0.5) if B is pressed.
-            if (currentGamepadB && !previousGamepadB) {
-                servoPosition = 0.5;
             }
 
             // Check to see if we're setting the servoPosition to less than the min, or more than the max.
-            if (servoPosition > MAX_POSITION) {
+            if (servoPosition > MAX_POSITION){
                 servoPosition = MAX_POSITION;
-            } else if (servoPosition < MIN_POSITION) {
+            } else if (servoPosition < MIN_POSITION){
                 servoPosition = MIN_POSITION;
             }
 
@@ -103,19 +89,13 @@ public class ServoPositionHelper extends LinearOpMode {
 
             // Because our logic has finished, we set our "previousGamepad" booleans to the current ones.
             previousGamepadY = currentGamepadY;
-            previousGamepadA = currentGamepadA;
-            previousGamepadB = currentGamepadB;
-            previousGamepadUp = currentGamepadUp;
-            previousGamepadDown = currentGamepadDown;
+            previousGamePadA = currentGamepadA;
+            previousGamePadUp = currentGamepadUp;
+            previousGamePadDown = currentGamepadDown;
 
-            // Show tuning info
-            telemetry.addData("Target Position", servoPosition);
-            telemetry.addData("Actual Position", servo.getPosition());
-            telemetry.addData("Step Size (D-pad)", positionAdjustment);
-            telemetry.addLine("\nControls:");
-            telemetry.addLine("  Y / A : Increase/Decrease Target Position");
-            telemetry.addLine("  D-pad Up/Down : Adjust Step Size");
-            telemetry.addLine("  B : Reset Position to 0.5");
+            // Show the servo position
+            telemetry.addData("Servo Position", servoPosition);
+            telemetry.addData("Servo Step Size", positionAdjustment);
             telemetry.update();
         }
     }
