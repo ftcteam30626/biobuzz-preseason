@@ -26,6 +26,7 @@ public class HeadingTest extends OpMode {
 
     @Override
     public void init() {
+        Drawing.init();
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
         telemetryManager = PanelsTelemetry.INSTANCE.getTelemetry();
@@ -74,5 +75,6 @@ public class HeadingTest extends OpMode {
         telemetryManager.addData("Path Index", pathState);
         telemetryManager.addData("Waiting", isWaiting);
         telemetryManager.update();
+        Drawing.drawDebug(follower);
     }
 }
