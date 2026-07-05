@@ -20,7 +20,7 @@ public class HeadingTest extends OpMode {
     private TelemetryManager telemetryManager;
 
     private final Pose startPose = new Pose(12, 78, Math.toRadians(0));
-    private final Pose point2 = new Pose(26, 22, Math.toRadians(45));
+    private final Pose point2 = new Pose(20, 20, Math.toRadians(45));
     private final Pose point3 = new Pose(66, 54, Math.toRadians(45));
     private final Pose point4 = new Pose(108, 6, Math.toRadians(0));
 
