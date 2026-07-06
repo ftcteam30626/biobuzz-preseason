@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 @Autonomous(name = "Heading Test", group = "Autonomous")
-public class HeadingTest extends OpMode {
+public class AutonomousForBiobuzzPreseasonV1 extends OpMode {
     private Follower follower;
     private int pathState = 0;
     private Timer pathTimer = new Timer();
