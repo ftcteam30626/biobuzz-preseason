@@ -3,6 +3,9 @@
 <resources>
 
     <style name="AppThemeRedRC" parent="AppTheme.Red">
+        <item name="colorPrimary">#FF5722</item> <!-- Warm Deep Orange -->
+        <item name="colorPrimaryDark">#BF360C</item>
+        <item name="colorAccent">#FFC107</item> <!-- Amber -->
     </style>
 
     <style name="AppThemeGreenRC" parent="AppTheme.Green">

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="warm_primary">#FF5722</color> <!-- Deep Orange -->
+    <color name="warm_primary_dark">#E64A19</color>
+    <color name="warm_accent">#FFC107</color> <!-- Amber -->
+    <color name="warm_background">#FFF3E0</color>
+</resources>

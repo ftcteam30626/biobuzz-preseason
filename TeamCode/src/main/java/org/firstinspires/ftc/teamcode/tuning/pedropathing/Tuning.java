@@ -1653,7 +1653,8 @@ class OffsetsTuner extends OpMode {
  * @version 1.1, 5/19/2025
  */
 class Drawing {
-    public static final double ROBOT_RADIUS = 9; // woah
+    public static final double ROBOT_LENGTH = 16.5;
+    public static final double ROBOT_WIDTH = 15.5; // woah
     private static final FieldManager panelsField = PanelsField.INSTANCE.getField();
 
     private static final Style robotLook = new Style(
@@ -1702,10 +1703,10 @@ class Drawing {
 
         panelsField.setStyle(style);
         panelsField.moveCursor(pose.getX(), pose.getY());
-        panelsField.circle(ROBOT_RADIUS);
+        panelsField.rect(ROBOT_WIDTH, ROBOT_LENGTH);
 
         Vector v = pose.getHeadingAsUnitVector();
-        v.setMagnitude(v.getMagnitude() * ROBOT_RADIUS);
+        v.setMagnitude(v.getMagnitude() * ROBOT_WIDTH / 2);
         double x1 = pose.getX() + v.getXComponent() / 2, y1 = pose.getY() + v.getYComponent() / 2;
         double x2 = pose.getX() + v.getXComponent(), y2 = pose.getY() + v.getYComponent();
 
