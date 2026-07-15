@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 @Autonomous(name = "Heading Test", group = "Autonomous")
-public class HeadingTest extends OpMode {
+public class AutonomousForBiobuzzPreseasonV1 extends OpMode {
     private Follower follower;
     private int pathState = 0;
     private Timer pathTimer = new Timer();
@@ -54,18 +54,25 @@ public class HeadingTest extends OpMode {
     public void loop() {
         follower.update();
 
-        // Move to the next path if the follower is finished
-        if (pathState < paths.length && !follower.isBusy()) {
-            // Check if we need to pause for 4 seconds (after indices 1, 2, 3, 4)
-            if (pathState >= 2 && pathState <= 5 && !isWaiting) {
-                pathTimer.resetTimer();
-                isWaiting = true;
-            }
+        // State machine for following paths and waiting
+        if (pathState < paths.length) {
+            if (!follower.isBusy()) {
+                // If we aren't already waiting, and we just finished a path that requires a wait...
+                // (e.g., after path 0 (at point 2), path 1 (at point 3), path 3 (at point 4))
+                if (!isWaiting && (pathState == 1 || pathState == 2 || pathState == 4)) {
+                    pathTimer.resetTimer();
+                    isWaiting = true;
+                }
 
-            // If we aren't waiting, or the 4s is up, follow the next segment
-            if (!isWaiting || pathTimer.getElapsedTimeSeconds() >= 4) {
-                follower.followPath(paths[pathState++]);
-                isWaiting = false;
+                // If we are waiting, check the timer. If not, just move to the next path.
+                if (isWaiting) {
+                    if (pathTimer.getElapsedTimeSeconds() >= 4.0) {
+                        isWaiting = false;
+                        follower.followPath(paths[pathState++]);
+                    }
+                } else {
+                    follower.followPath(paths[pathState++]);
+                }
             }
         }
 
